@@ -1,0 +1,76 @@
+{% extends "base.njk" %}
+
+{% block titulo %}Habitacion | Ficha{% endblock %}
+
+{% block contenido %}
+
+
+    <h1>Ficha de habitacion {{habitacion.numero}}</h1>
+    <p>Tipo {{habitacion.tipo}} - <strong>{{habitacion.precio}} eur/noche</strong></p>
+    <p>{{habitacion.descripcion}}</p><br>
+    {% if habitacion.imagen%}
+        <img src="/uploads/habitaciones/{{ habitacion.imagen }}">
+    {% endif %}
+    {% if (session and session.usuario) %}
+
+        <a href="/habitaciones/editar/{{habitacion.id}}" class="btn btn-success mt-2 mb-2">Editar habitacion</a>
+
+        <form action="/habitaciones/{{ habitacion.id }}" method="post">
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit" class="btn btn-danger">
+                Borrar habitacion
+            </button>
+        </form>
+    {% endif %}
+    <h2>Incidencias</h2>
+    {% if (session and session.usuario) %}
+
+    <h4>Nueva incidencia</h4>
+    <form action="/habitaciones/{{habitacion.id}}/incidencias" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Descripcion:</br>
+                <textarea id="descripcion" name="descripcion" rows="4" cols="50"></textarea>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>Imagen de la incidencia:
+                <input type="file" class="form-control" name="imagenIncidencia" >
+        </label>
+            </div>
+        <button type="submit" class="btn btn-primary m-2">
+            Enviar
+        </button>
+    </form>
+    {% endif %}
+    <div class="card">
+        <h5 class="card-header">LISTADO DE INCIDENCIAS</h5>
+            {% for incidencia in habitacion.incidencias %}
+            <div class="card-body">
+                <h5 class="card-title">{{incidencia.fechaInicio | date('DD/MM/YYYY')}}</h5>
+                {% if incidencia.imagen %}
+                <img src="/uploads/incidencias/{{incidencia.imagen}}">
+                {% endif %}
+                <p class="card-text">{{incidencia.descripcion}}</p>
+                {% if incidencia.fechaFin%}
+                <p class="text-success">Cerrada el {{incidencia.fechaFin | date('DD/MM/YYYY')}}</p>
+                {% else %}
+                    {% if (session and session.usuario) %}
+                        <form action="/habitaciones/{{habitacion.id}}/incidencias/{{incidencia.id}}" method="post" enctype="multipart/form-data">
+                            <button type="submit" class="btn btn-danger">
+                                Cerrar
+                            </button>
+                        </form>
+                    {% endif %}
+
+                {% endif %}
+            </div>
+            {% endfor %}
+
+    </div>
+
+
+    <h5 class="card-header">Limpiezas</h5>
+    <a href="/limpiezas/{{ habitacion.id }}" class="btn btn-primary">Ver limpiezas</a>
+
+
+{% endblock %}

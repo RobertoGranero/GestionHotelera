@@ -1,0 +1,58 @@
+{% extends "base.njk" %}
+
+{% block titulo %}Habitaciones | Editar{% endblock %}
+
+{% block contenido %}
+
+    <h1>Editar habitacion</h1>
+    {% if errores.general %}
+        <p class="alert alert-danger">{{ errores.general }}</p>
+    {% endif %}
+    <form action="/habitaciones/edicion/{{ idHabitacion }}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Numero de habitacion:
+                <input type="number" class="form-control" name="numero" min="0" max="100" value="{{habitacion.numero}}">
+            </label></br>
+            {% if errores.numero %}
+                <p class="text-danger">{{ errores.numero }}</p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label>Tipo de habitacion:</br>
+                <select>
+                    <option name="tipo" value="individual">Individual</option>
+                    <option name="tipo" value="doble">Doble</option>
+                    <option name="tipo" value="familiar">Familiar</option>
+                    <option name="tipo" value="suite">Suite</option>
+                </select>
+            </label>
+        </div>
+        <div class="form-group">
+
+            <label>Descripcion:</br>
+                <textarea id="descripcion" name="descripcion" rows="4" cols="50">{{habitacion.descripcion}}</textarea>
+            </label>
+            {% if errores.descripcion %}
+                <p class="text-danger">{{ errores.descripcion }}</p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+
+            <label>Precio por noche:</br>
+                <input type="number" class="form-control" name="precio" value="{{habitacion.precio}}">
+            </label>
+            {% if errores.precio %}
+                <p class="text-danger">{{ errores.precio }}</p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label>Imagen de la habitacion:
+                <input type="file" class="form-control" name="imagen" >
+            </label>
+        </div>
+        <button type="submit" class="btn btn-success">
+            Editar
+        </button>
+    </form>
+
+{% endblock %}

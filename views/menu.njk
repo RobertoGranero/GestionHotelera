@@ -1,0 +1,19 @@
+
+
+<nav class="navbar navbar-dark bg-dark">
+  <form class="container justify-content-center">
+    <a href="/habitaciones">
+      <button class="btn btn-light me-2 " type="button" href="/habitaciones">Habitaciones</button>
+    </a>
+
+
+        {% if (session and session.usuario) %}
+          <a href="/habitaciones/nueva">
+            <button class="btn btn-light me-2 " type="button" href="/habitaciones/nueva">Nueva habitacion</button>
+          </a>
+          <a class="nav-link" href="/auth/logout"><button class="btn btn-success" type="button" href="/auth/logout">Logout</button></a>
+        {% else %}
+          <a class="nav-link" href="/auth/login"><button class="btn btn-success" type="button" href="/auth/login">Login</button></a>
+        {% endif %}
+  </form>
+</nav>

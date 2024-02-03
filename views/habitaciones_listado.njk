@@ -1,0 +1,27 @@
+{% extends "base.njk" %}
+
+{% block titulo %}Habitaciones | Listado{% endblock %}
+
+{% block contenido %}
+
+    <h1>Listado de habitaciones</h1>
+
+    <div class="row">
+        {% for habitacion in habitaciones %}
+        <div class="col-sm-4 gy-2">
+            <div class="card border border-2 border-dark">
+                <div class="card-header fw-bold">Habitacion {{ habitacion.numero }}</div>
+                <div class="card-body">
+                    <p class="card-text">Ultima limpieza ({{ habitacion.ultimaLimpieza | date('DD/MM/YYYY')}})</p>
+                    <a href="/habitaciones/{{ habitacion.id }}" class="btn btn-primary">Ver ficha</a>
+                    {% if (session and session.usuario) %}
+                        <a href="/habitaciones/editar/{{habitacion.id}}" class="btn btn-success">Editar habitacion</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
